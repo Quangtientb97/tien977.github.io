@@ -97,7 +97,6 @@ io.sockets.on('connection', function(socket){
 						console.log('mysql error 90',err.code);
 						//console.log('khong thanh cong');						
 				});
-				console.log('thanh cong');
 			}
 			socket.emit('ket-qua-dang-ki',{noidung: ketqua});
 		});	
@@ -182,7 +181,7 @@ io.sockets.on('connection', function(socket){
 		var json = `{"rota":${data.rota},"mode":${data.mode}}`;	
 		const obj = JSON.parse(json);
 		socket.to(device[device_id]).emit('send-motor', obj);
-		console.log('send to' + device[device_id]);
+		console.log('send to ' + device[device_id]);
 		con.query(`SELECT COUNT(*) AS so_luong FROM device${data.device_id}_log`, function(err,result, fields){
 			con.on('error',function(err){
 				console.log('mysql error 179',err.code);
@@ -198,7 +197,7 @@ io.sockets.on('connection', function(socket){
 		});	
 	});
 	socket.on('disconnect', function(data){
-		console.log(socket.id + 'disconnect');
+		console.log(socket.id + ' disconnect');
 	});	
 
 
@@ -219,7 +218,7 @@ function handleDisconnect() {
 
 	con.connect(function(err) {              // The server is either down
 	    if(err) {                                     // or restarting (takes a while sometimes).
-	      console.log('error when connecting to db:', err);
+	      console.log('error when connecting to db: ', err);
 	      setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
 	    }                                     // to avoid a hot loop, and to allow our node script to
 	});                                     // process asynchronous requests in the meantime.
