@@ -82,7 +82,7 @@ io.sockets.on('connection', function(socket){
 	  
 		con.query('SELECT * FROM users where email=?',[email], function(err,result, fields){
 			con.on('error',function(err){
-				console.log('mysql error 78',err);
+				console.log('mysql error 78',err.code);
 			});
 
 			if (result && result.length){
@@ -94,7 +94,7 @@ io.sockets.on('connection', function(socket){
 				ketqua = true;
 				let sql1 = `INSERT INTO users(unique_id, name, email, encrypted_password, salt, create_at) values (  \'${uid}\', \'${name}\', \'${email}\', \'${password}\', \'${salt}\', \'${moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss')}\')` ;
 				con.query(sql1, function (err) {
-						console.log('mysql error 90',err);
+						console.log('mysql error 90',err.code);
 						//console.log('khong thanh cong');						
 				});
 				console.log('thanh cong');
@@ -109,7 +109,7 @@ io.sockets.on('connection', function(socket){
 		
 		con.query('SELECT * FROM users where email=?',[email], function(err,result, fields){
 			con.on('error',function(err){
-				console.log('mysql error 113',err);
+				console.log('mysql error 113',err.code);
 			});
 			if (result && result.length){
 				var salt = result[0].salt;
@@ -140,14 +140,14 @@ io.sockets.on('connection', function(socket){
 		let sql = `CREATE TABLE IF NOT EXISTS device${data.device_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,ThoiGian TIMESTAMP, chieuquay VARCHAR(255), tocdo INT(10)) ENGINE = InnoDB` ;
 		con.query(sql, function(err){
 			con.on('error', function(err){
-				console.log('mysql error 142',err);
+				console.log('mysql error 142',err.code);
 			});
 		});
 		sql = `INSERT INTO device${data.device_id}_log(chieuquay, tocdo, Thoigian) values (  \'${data.chieuquay}\', \'${data.tocdo}\', \'${moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss')}\')`;
 		console.log(sql);
 		con.query(sql, function(err){
 			con.on('error', function(err){
-				console.log('mysql error 148',err);
+				console.log('mysql error 148',err.code);
 			});
 		});	
 		socket.to(app[app_control[data.device_id]]).emit('send-app', data);
@@ -159,7 +159,7 @@ io.sockets.on('connection', function(socket){
 		console.log(socket.id + ' connected');
 		con.query('SELECT unique_id FROM devices where device_id=?',[data], function(err,result, fields){
 			con.on('error',function(err){
-				console.log('mysql error 78',err);
+				console.log('mysql error 78',err.code);
 			});
 			app_control[data] = result[0].unique_id;
 		});
@@ -168,7 +168,7 @@ io.sockets.on('connection', function(socket){
 	socket.on('initial-app', function(data){
 		con.query('SELECT unique_id FROM users where email=?',[data], function(err,result, fields){
 			con.on('error',function(err){
-				console.log('mysql error 78',err);
+				console.log('mysql error 78',err.code);
 			});
 			app[result[0].unique_id] = socket.id;
 		});
@@ -185,12 +185,12 @@ io.sockets.on('connection', function(socket){
 		console.log('send to' + device[device_id]);
 		con.query(`SELECT COUNT(*) AS so_luong FROM device${data.device_id}_log`, function(err,result, fields){
 			con.on('error',function(err){
-				console.log('mysql error 179',err);
+				console.log('mysql error 179',err.code);
 			});
 			if (result[0].so_luong > 50000){
 				con.query(`DELETE FROM device${data.device_id}_log`, function(err,result, fields){
 					con.on('error',function(err){
-							console.log('mysql error 184',err);
+							console.log('mysql error 184',err.code);
 					});	
 				console.log(`DELETE FROM device${data.device_id}_log`);			
 				});
