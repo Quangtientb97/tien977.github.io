@@ -157,7 +157,7 @@ io.sockets.on('connection', function(socket){
 			});
 		});	
 		socket.to(app[app_control[data.device_id]]).emit('send-app', data);
-		console.log('sent to' + app[app_control[data.device_id]);
+		console.log('sent to' + app[app_control[data.device_id]]);
 
 	});
 	//join room
