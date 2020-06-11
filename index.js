@@ -131,6 +131,12 @@ io.sockets.on('connection', function(socket){
 			}
 			socket.emit('ket-qua-dang-nhap',{noidung: ketqua});
 		});
+		con.query('SELECT unique_id FROM users where email=?',[email], function(err,result, fields){
+			con.on('error',function(err){
+				console.log('mysql error 78',err.code);
+			});
+			app[result[0].unique_id] = socket.id;
+		});
 	});
 	//update_data device
 	socket.on('update_data', function(data){
@@ -164,14 +170,14 @@ io.sockets.on('connection', function(socket){
 		});
 
 	});
-	socket.on('initial-app', function(data){
+	/*socket.on('initial-app', function(data){
 		con.query('SELECT unique_id FROM users where email=?',[data], function(err,result, fields){
 			con.on('error',function(err){
 				console.log('mysql error 78',err.code);
 			});
 			app[result[0].unique_id] = socket.id;
 		});
-	})
+	})*/
 	socket.on('receive-motor', function(data){
 		console.log(socket.id + ' connected');
 		console.log(data);
