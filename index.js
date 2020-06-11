@@ -143,7 +143,7 @@ io.sockets.on('connection', function(socket){
 			});
 		});
 		sql = `INSERT INTO device${data.device_id}_log(chieuquay, tocdo, Thoigian) values (  \'${data.chieuquay}\', \'${data.tocdo}\', \'${moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss')}\')`;
-		console.log(sql);
+		//console.log(sql);
 		con.query(sql, function(err){
 			con.on('error', function(err){
 				console.log('mysql error 148',err.code);
