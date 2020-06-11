@@ -105,6 +105,7 @@ io.sockets.on('connection', function(socket){
 	socket.on('client-dang-nhap-user', function(data){
 		var email    	  = data.email;
 		var user_password = data.password;
+		console.log('app socket.id' + socket.id);
 		
 		con.query('SELECT * FROM users where email=?',[email], function(err,result, fields){
 			con.on('error',function(err){
@@ -156,6 +157,7 @@ io.sockets.on('connection', function(socket){
 			});
 		});	
 		socket.to(app[app_control[data.device_id]]).emit('send-app', data);
+		console.log('sent to' + app[app_control[data.device_id]);
 
 	});
 	//join room
