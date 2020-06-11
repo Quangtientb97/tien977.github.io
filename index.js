@@ -104,9 +104,7 @@ io.sockets.on('connection', function(socket){
 	// dang nhap
 	socket.on('client-dang-nhap-user', function(data){
 		var email    	  = data.email;
-		var user_password = data.password;
-		console.log('app socket.id' + socket.id);
-		
+		var user_password = data.password;		
 		con.query('SELECT * FROM users where email=?',[email], function(err,result, fields){
 			con.on('error',function(err){
 				console.log('mysql error 113',err.code);
@@ -120,6 +118,7 @@ io.sockets.on('connection', function(socket){
 					//res.end(JSON.stringify(result[0]));
 					console.log('dang nhap thanh cong');
 					console.log(result[0]);
+					console.log('app socket.id: ' + socket.id);
 				}
 				else{
 					ketqua = false;
@@ -163,7 +162,7 @@ io.sockets.on('connection', function(socket){
 	//join room
 	socket.on('join-room-device', function(data){
 		device[data] = socket.id;
-		console.log(socket.id + ' connected');
+		console.log('device id: ' + socket.id);
 		con.query('SELECT unique_id FROM devices where device_id=?',[data], function(err,result, fields){
 			con.on('error',function(err){
 				console.log('mysql error 78',err.code);
@@ -181,7 +180,7 @@ io.sockets.on('connection', function(socket){
 		});
 	})*/
 	socket.on('receive-motor', function(data){
-		console.log(socket.id + ' connected');
+		//console.log(socket.id + ' connected');
 		console.log(data);
 		//var rota      = data.rota;
 		//var mode      = data.mode;
@@ -194,13 +193,15 @@ io.sockets.on('connection', function(socket){
 			con.on('error',function(err){
 				console.log('mysql error 179',err.code);
 			});
-			if (result[0].so_luong > 50000){
-				con.query(`DELETE FROM device${data.device_id}_log`, function(err,result, fields){
-					con.on('error',function(err){
-							console.log('mysql error 184',err.code);
-					});	
-				console.log(`DELETE FROM device${data.device_id}_log`);			
-				});
+			if (result && result.length){
+				if (result[0].so_luong > 50000){
+					con.query(`DELETE FROM device${data.device_id}_log`, function(err,result, fields){
+						con.on('error',function(err){
+								console.log('mysql error 184',err.code);
+						});	
+					console.log(`DELETE FROM device${data.device_id}_log`);			
+					});
+				}
 			}
 		});	
 	});
