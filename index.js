@@ -171,19 +171,9 @@ io.sockets.on('connection', function(socket){
 		});
 
 	});
-	/*socket.on('initial-app', function(data){
-		con.query('SELECT unique_id FROM users where email=?',[data], function(err,result, fields){
-			con.on('error',function(err){
-				console.log('mysql error 78',err.code);
-			});
-			app[result[0].unique_id] = socket.id;
-		});
-	})*/
+	//dieu khien motor
 	socket.on('receive-motor', function(data){
-		//console.log(socket.id + ' connected');
 		console.log(data);
-		//var rota      = data.rota;
-		//var mode      = data.mode;
 		var device_id = data.device_id;
 		var json = `{"rota":${data.rota},"mode":${data.mode}}`;	
 		const obj = JSON.parse(json);
@@ -208,6 +198,9 @@ io.sockets.on('connection', function(socket){
 	socket.on('disconnect', function(data){
 		console.log(socket.id + ' disconnect');
 	});	
+
+
+	
 
 
 
@@ -239,7 +232,7 @@ function handleDisconnect() {
 	      handleDisconnect();
 	      console.log("ket noi lai");                         // lost due to either server restart, or a
 	    } else {                                      // connnection idle timeout (the wait_timeout
-	      throw err;                                  // server variable configures this)
+	      console.log('mysql error handle',err);                                  // server variable configures this)
 	    }
 	});
 }
