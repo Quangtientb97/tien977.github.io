@@ -238,8 +238,3 @@ function handleDisconnect() {
 	    }
 	});
 }
-
-
-
-
-
