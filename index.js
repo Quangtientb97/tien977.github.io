@@ -135,7 +135,9 @@ io.sockets.on('connection', function(socket){
 			con.on('error',function(err){
 				console.log('mysql error 78',err.code);
 			});
-			app[result[0].unique_id] = socket.id;
+			if (result && result.length){
+				app[result[0].unique_id] = socket.id;
+			}
 		});
 	});
 	//update_data device
