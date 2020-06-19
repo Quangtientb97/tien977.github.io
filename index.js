@@ -118,7 +118,7 @@ io.sockets.on('connection', function(socket){
 					//res.end(JSON.stringify(result[0]));
 					// ô đẩy git cái phụ giống hệt cái hiện tại bên ô lên đc k
 					console.log('dang nhap thanh cong');
-					console.log(result[0]);
+					//console.log(result[0]);
 					console.log('app socket.id: ' + socket.id);
 				}
 				else{
@@ -181,10 +181,10 @@ io.sockets.on('connection', function(socket){
 			con.on('error',function(err){
 				console.log('mysql error 78',err.code);
 			});
-			app_control[data.device_id] = result[0].unique_id;
+			user_unique_id = result[0].unique_id;
 		});
 
-		con.query(`CREATE TABLE IF NOT EXISTS user${app_control[data.device_id]}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,ThoiGian TIMESTAMP, chieuquay VARCHAR(255), mode INT(10), device_id INT(10)) ENGINE = InnoDB`, function(err){
+		con.query(`CREATE TABLE IF NOT EXISTS user${user_unique_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, device_id INT(10), ThoiGian TIMESTAMP, chieuquay VARCHAR(255), mode INT(10)) ENGINE = InnoDB`, function(err){
 			con.on('error', function(err){
 				console.log('mysql error 182',err.code);
 			});
