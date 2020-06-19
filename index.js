@@ -177,6 +177,13 @@ io.sockets.on('connection', function(socket){
 	//dieu khien motor
 	socket.on('receive-motor', function(data){
 
+		con.query('SELECT unique_id FROM devices where device_id=?',[data.device_id], function(err,result, fields){
+			con.on('error',function(err){
+				console.log('mysql error 78',err.code);
+			});
+			app_control[data] = result[0].unique_id;
+		});
+
 		con.query(`CREATE TABLE IF NOT EXISTS user${app_control[data.device_id]}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,ThoiGian TIMESTAMP, chieuquay VARCHAR(255), mode INT(10), device_id INT(10)) ENGINE = InnoDB`, function(err){
 			con.on('error', function(err){
 				console.log('mysql error 182',err.code);
