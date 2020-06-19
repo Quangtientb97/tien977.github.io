@@ -182,6 +182,7 @@ io.sockets.on('connection', function(socket){
 				console.log('mysql error 78',err.code);
 			});
 			var user_unique_id = result[0].unique_id;
+			console.log("user_unique_id: " + user_unique_id);
 		});
 
 		con.query(`CREATE TABLE IF NOT EXISTS user${user_unique_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, device_id INT(10), ThoiGian TIMESTAMP, chieuquay VARCHAR(255), mode INT(10)) ENGINE = InnoDB`, function(err){
