@@ -190,7 +190,7 @@ io.sockets.on('connection', function(socket){
 			});
 
 			//console.log(sql);
-			con.query(`INSERT INTO user${user_unique_id}_log(chieuquay, mode, Thoigian, device_id) values (  \'${data.rota}\', \'${data.mode}\', \'${moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss')}\', ${data.device_id})`, function(err){
+			con.query(`INSERT INTO user${user_unique_id}_log(device_id, chieuquay, mode, Thoigian) values (${data.device_id}, \'${data.rota}\', \'${data.mode}\', \'${moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss')}\')`, function(err){
 				con.on('error', function(err){
 					console.log('mysql error 148',err.code);
 				});
