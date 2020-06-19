@@ -116,6 +116,7 @@ io.sockets.on('connection', function(socket){
 				if (encrypted_password == hashed_password) {
 					ketqua = true;
 					//res.end(JSON.stringify(result[0]));
+					// ô đẩy git cái phụ giống hệt cái hiện tại bên ô lên đc k
 					console.log('dang nhap thanh cong');
 					console.log(result[0]);
 					console.log('app socket.id: ' + socket.id);
@@ -175,6 +176,21 @@ io.sockets.on('connection', function(socket){
 	});
 	//dieu khien motor
 	socket.on('receive-motor', function(data){
+
+		con.query(`CREATE TABLE IF NOT EXISTS user${app_control[data.device_id]}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,ThoiGian TIMESTAMP, chieuquay VARCHAR(255), mode INT(10), device_id INT(10)) ENGINE = InnoDB`, function(err){
+			con.on('error', function(err){
+				console.log('mysql error 182',err.code);
+			});
+		});
+
+		//console.log(sql);
+		con.query(`INSERT INTO user${app_control[data.device_id]}_log(chieuquay, mode, Thoigian, device_id) values (  \'${data.rota}\', \'${data.mode}\', \'${moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss')}\', ${data.device_id})`, function(err){
+			con.on('error', function(err){
+				console.log('mysql error 148',err.code);
+			});
+		});
+
+
 		console.log(data);
 		var device_id = data.device_id;
 		var json = `{"rota":${data.rota},"mode":${data.mode}}`;	
