@@ -185,18 +185,18 @@ io.sockets.on('connection', function(socket){
 			console.log("user_unique_id: " + user_unique_id);
 		});
 
-		con.query(`CREATE TABLE IF NOT EXISTS user${user_unique_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, device_id INT(10), ThoiGian TIMESTAMP, chieuquay VARCHAR(255), mode INT(10)) ENGINE = InnoDB`, function(err){
+		/*con.query(`CREATE TABLE IF NOT EXISTS user${user_unique_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, device_id INT(10), ThoiGian TIMESTAMP, chieuquay VARCHAR(255), mode INT(10)) ENGINE = InnoDB`, function(err){
 			con.on('error', function(err){
 				console.log('mysql error 182',err.code);
 			});
 		});
 
 		//console.log(sql);
-		con.query(`INSERT INTO user${app_control[data.device_id]}_log(chieuquay, mode, Thoigian, device_id) values (  \'${data.rota}\', \'${data.mode}\', \'${moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss')}\', ${data.device_id})`, function(err){
+		con.query(`INSERT INTO user${user_unique_id}_log(chieuquay, mode, Thoigian, device_id) values (  \'${data.rota}\', \'${data.mode}\', \'${moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss')}\', ${data.device_id})`, function(err){
 			con.on('error', function(err){
 				console.log('mysql error 148',err.code);
 			});
-		});
+		});*/
 
 
 		console.log(data);
