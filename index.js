@@ -176,28 +176,26 @@ io.sockets.on('connection', function(socket){
 	});
 	//dieu khien motor
 	socket.on('receive-motor', function(data){
-
+		//ghi log user
 		con.query('SELECT unique_id FROM devices where device_id=?',[data.device_id], function(err,result, fields){
 			con.on('error',function(err){
 				console.log('mysql error 78',err.code);
 			});
 			var user_unique_id = result[0].unique_id.slice(0,7);
 			console.log("user_unique_id: " + user_unique_id);
-		});
+			con.query(`CREATE TABLE IF NOT EXISTS user${user_unique_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, device_id INT(10), ThoiGian TIMESTAMP, chieuquay VARCHAR(255), mode INT(10)) ENGINE = InnoDB`, function(err){
+				con.on('error', function(err){
+					console.log('mysql error 182',err.code);
+				});
+			});
 
-		/*con.query(`CREATE TABLE IF NOT EXISTS user${user_unique_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, device_id INT(10), ThoiGian TIMESTAMP, chieuquay VARCHAR(255), mode INT(10)) ENGINE = InnoDB`, function(err){
-			con.on('error', function(err){
-				console.log('mysql error 182',err.code);
+			//console.log(sql);
+			con.query(`INSERT INTO user${user_unique_id}_log(chieuquay, mode, Thoigian, device_id) values (  \'${data.rota}\', \'${data.mode}\', \'${moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss')}\', ${data.device_id})`, function(err){
+				con.on('error', function(err){
+					console.log('mysql error 148',err.code);
+				});
 			});
 		});
-
-		//console.log(sql);
-		con.query(`INSERT INTO user${user_unique_id}_log(chieuquay, mode, Thoigian, device_id) values (  \'${data.rota}\', \'${data.mode}\', \'${moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss')}\', ${data.device_id})`, function(err){
-			con.on('error', function(err){
-				console.log('mysql error 148',err.code);
-			});
-		});*/
-
 
 		console.log(data);
 		var device_id = data.device_id;
