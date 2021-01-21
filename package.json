@@ -13,7 +13,7 @@
     "moment-timezone": "^0.5.31",
     "mysql": "^2.18.1",
     "package": "^1.0.1",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "uuid": "^8.1.0"
   }
 }
